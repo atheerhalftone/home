@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Atheer is an artist and designer creating identities, motion and visual worlds. Based in Baghdad, working worldwide.">
+<meta name="theme-color" content="#0B0D0A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Atheer, artist and designer">
+<meta property="og:description" content="Identities, motion and visual worlds. Based in Baghdad, working worldwide.">
+<meta property="og:url" content="https://halftoneatheer.com/">
+<meta property="og:image" content="https://halftoneatheer.com/assets/share.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>Atheer: Artist, Designer, Motion</title>
+<style>
+@font-face{font-family:"Halftone Display";src:url("assets/HalftoneDisplay.woff") format("woff"),url("assets/HalftoneDisplay.ttf") format("truetype") format("woff");font-weight:400;font-style:normal;font-display:block}
+:root{
+  --portrait:url("assets/halftone.webp");
+  --void:#070806;
+  --ink:#0B0D0A;
+  --line:#22261F;
+  --paper:#F2F2EE;
+  --mute:#8B8D85;
+  --sage:#8FA37C;
+  --sage-dim:#5E6E51;
+  --display:"Halftone Display","Helvetica Neue",system-ui,sans-serif;
+  --util:"Halftone Display","Helvetica Neue",system-ui,sans-serif;
+  --gut:clamp(20px,4vw,64px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);color:var(--paper);
+  font-family:var(--display);-webkit-font-smoothing:antialiased;font-weight:400;font-synthesis:none;letter-spacing:.012em;
+  overflow-x:hidden;cursor:none;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--sage-dim);color:var(--paper)}
+.label{font-family:var(--util);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--mute)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--paper);display:inline-block;flex:none}
+
+/* cursor */
+#cur,#curTrail{position:fixed;top:0;left:0;z-index:800;pointer-events:none}
+#cur{width:7px;height:7px;border-radius:50%;background:var(--paper);margin:-3.5px 0 0 -3.5px;mix-blend-mode:difference}
+#curTrail{width:100vw;height:100vh}
+body.no-cursor{cursor:auto}
+body.no-cursor #cur,body.no-cursor #curTrail{display:none}
+
+/* chrome */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:900;pointer-events:auto;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:26px var(--gut);mix-blend-mode:difference;
+}
+nav a{position:relative;z-index:1}
+.logo{display:block;height:clamp(26px,2.6vw,34px);width:auto;overflow:visible}
+.logo g{will-change:transform}
+.logo rect{fill:var(--paper)}
+#logo-link{display:block;line-height:0}
+nav{display:flex;gap:34px;align-items:center}
+nav a{font-family:var(--util);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;position:relative;padding:4px 0}
+nav a::after{
+  content:"";position:absolute;left:50%;bottom:-9px;width:5px;height:5px;border-radius:50%;
+  background:var(--sage);transform:translate(-50%,3px) scale(0);
+  transition:transform .45s cubic-bezier(.2,1.3,.3,1);
+}
+nav a.here::after,nav a:hover::after{transform:translate(-50%,0) scale(1)}
+#sound{width:9px;height:9px;border-radius:50%;border:1px solid var(--paper);background:transparent;cursor:none;padding:0;transition:background .4s ease}
+#sound[aria-pressed="true"]{background:var(--paper)}
+
+/* hero */
+#hero{
+  min-height:100svh;position:relative;display:grid;align-items:center;
+  padding:110px var(--gut) 120px;
+  background:radial-gradient(64% 52% at 26% 58%,rgba(97,120,80,.15),transparent 62%),
+             radial-gradient(58% 48% at 76% 50%,rgba(97,120,80,.12),transparent 64%),
+             var(--ink);
+}
+#markWrap{
+  position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
+}
+#mark{height:min(84svh,880px);width:auto;overflow:visible;will-change:transform}
+#mark path,#mark circle{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+#mark .a{stroke:rgba(242,242,238,.66);stroke-width:1.5}
+#mark .b{stroke:rgba(143,163,124,.72);stroke-width:1.3}
+#mark .c{stroke:rgba(242,242,238,.34);stroke-width:1.1}
+#mark .anchor{stroke:var(--sage);stroke-width:1.6;fill:rgba(143,163,124,.12)}
+.hero-in{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;align-self:end}
+.role{display:flex;gap:10px;align-items:flex-start}
+.role .label{line-height:1.7}
+.heroline{font-size:clamp(30px,4.4vw,52px);line-height:1.06;letter-spacing:.005em;font-weight:400;margin-top:14px}
+.heroline span{color:var(--sage)}
+.scrollcue{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);display:grid;justify-items:center;gap:13px;z-index:2}
+.scrollcue i{display:block;width:1px;height:42px;background:linear-gradient(var(--line),var(--paper))}
+.scrollcue s{width:5px;height:5px;border-radius:50%;background:var(--paper);animation:pulse 3.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+@media(max-width:760px){
+  #mark{height:62svh}
+  .hero-in{flex-direction:column;align-items:flex-start;gap:22px}
+}
+
+/* divider */
+.rule{position:relative;height:1px;margin:0 var(--gut)}
+.rule i{position:absolute;top:0;height:1px;background:var(--line);width:0;will-change:width}
+.rule i.l{left:0}.rule i.r{right:0}
+.rule s{position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;background:var(--sage-dim);
+  transform:translate(-50%,-50%) scale(0);transition:transform .7s cubic-bezier(.2,1.4,.3,1) .35s}
+.rule.on s{transform:translate(-50%,-50%) scale(1)}
+
+/* about */
+#about{position:relative;padding:clamp(80px,11vw,150px) var(--gut);background:var(--ink);overflow:hidden}
+#echo{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  height:150%;width:auto;pointer-events:none;overflow:visible;
+}
+#echo path,#echo circle{fill:none;stroke:rgba(143,163,124,.30);stroke-width:1;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.about-in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(260px,.8fr) 1.2fr auto;gap:clamp(28px,5vw,72px);align-items:center}
+@media(max-width:940px){.about-in{grid-template-columns:1fr}.seal{display:none}}
+.portrait{position:relative;aspect-ratio:700/718;display:grid;place-items:center}
+.portrait::before{
+  content:"";position:absolute;top:4%;width:74%;aspect-ratio:1/1;border-radius:50%;
+  background:radial-gradient(circle,rgba(143,163,124,.15),rgba(10,12,9,0) 66%);
+}
+.fig{position:absolute;inset:0;background:var(--portrait) center/contain no-repeat}
+.fig.scan{
+  filter:brightness(2.5) saturate(.55);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 46%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 46%,transparent 100%);
+  -webkit-mask-size:100% 38%;mask-size:100% 38%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  animation:scan 19s cubic-bezier(.5,0,.5,1) infinite;
+}
+@keyframes scan{
+  0%{-webkit-mask-position:0 -42%;mask-position:0 -42%;opacity:0}
+  12%{opacity:.9}
+  78%{opacity:.9}
+  100%{-webkit-mask-position:0 142%;mask-position:0 142%;opacity:0}
+}
+.stamp{
+  margin-top:22px;border:1px solid var(--line);background:rgba(7,8,6,.55);
+  backdrop-filter:blur(6px);padding:11px 13px;display:grid;gap:3px;justify-self:start;
+}
+.stamp span{font-family:var(--util);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.stamp span.now{color:var(--paper)}
+.eyebrow{display:flex;gap:10px;align-items:center}
+.eyebrow .dot{background:var(--sage)}
+.say{font-size:clamp(26px,3.3vw,42px);line-height:1.24;letter-spacing:.005em;margin:18px 0 22px}
+.say b{font-weight:400;color:var(--sage)}
+.bio{max-width:46ch;font-size:13.5px;line-height:1.85;color:#B9BBB3}
+.soon{
+  margin-top:28px;max-width:46ch;display:flex;gap:14px;align-items:flex-start;
+  border:1px solid var(--line);background:rgba(143,163,124,.045);padding:14px 16px;
+}
+.soon p{font-size:12.5px;line-height:1.7;color:#A9ABA3;margin-top:6px}
+.pip{position:relative;flex:none;width:7px;height:7px;border-radius:50%;background:var(--sage);margin-top:5px}
+.pip::after{
+  content:"";position:absolute;inset:-7px;border-radius:50%;
+  border:1px solid rgba(143,163,124,.45);animation:pip 3.8s ease-out infinite;
+}
+@keyframes pip{0%{transform:scale(.45);opacity:0}25%{opacity:.85}100%{transform:scale(1.3);opacity:0}}
+.sig{margin-top:26px;width:130px;opacity:.85}
+.sig path{fill:none;stroke:var(--sage);stroke-width:1.4;stroke-linecap:round}
+.seal{width:158px;height:158px;position:relative;display:grid;place-items:center}
+.seal svg{position:absolute;inset:0;width:100%;height:100%}
+.seal text{fill:var(--mute);font-family:var(--util);font-size:7.4px;letter-spacing:.34em;text-transform:uppercase}
+.seal i{width:22px;height:2px;background:var(--sage-dim);display:block}
+
+/* contact */
+#contact{position:relative;background:var(--void);padding:clamp(70px,10vw,130px) var(--gut) 40px;overflow:hidden}
+.ftop{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
+.ftop h2{font-size:clamp(28px,4vw,50px);line-height:1.1;letter-spacing:.005em;font-weight:400}
+.ftop h2 span{color:var(--sage)}
+.cta{margin-top:34px;display:inline-flex;align-items:center;gap:44px;padding:16px 22px;
+  border:1px solid var(--sage-dim);background:rgba(143,163,124,.07);
+  font-family:var(--util);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
+  transition:background .5s ease,border-color .5s ease}
+.cta:hover{background:rgba(143,163,124,.16);border-color:var(--sage)}
+.links{display:grid;gap:11px;justify-items:end}
+.links a{display:flex;align-items:center;gap:12px;font-family:var(--util);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--mute);transition:color .4s ease}
+.links a:hover{color:var(--paper)}
+.links .dot{width:5px;height:5px;background:var(--sage-dim)}
+.ftail{margin-top:clamp(300px,34vw,460px);padding-top:20px;border-top:1px solid var(--line);
+  position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:20px}
+#relief{
+  position:absolute;left:0;right:0;bottom:74px;width:100%;
+  height:clamp(250px,32vw,420px);pointer-events:none;z-index:0;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 20%,#000 88%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 20%,#000 88%,transparent 100%);
+}
+.ftop{position:relative;z-index:2}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<script>
+/* Navigation lives on its own, before everything else, so no error
+   elsewhere can stop it. scrollIntoView walks up to whatever is
+   actually scrolling: the window, or a container if the page is
+   embedded: instead of assuming the window scrolls. */
+(function(){
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.addEventListener("click", function(e){
+    var el = e.target, a = null;
+    while (el && el !== document){
+      if (el.tagName === "A" && (el.getAttribute("href") || "").charAt(0) === "#"){ a = el; break; }
+      el = el.parentNode;
+    }
+    if (!a) return;
+    var t = document.getElementById(a.getAttribute("href").slice(1));
+    if (!t) return;
+    e.preventDefault();
+    try { t.scrollIntoView({behavior: reduce ? "auto" : "smooth", block: "start"}); }
+    catch (err){ t.scrollIntoView(); }
+  }, true);
+})();
+</script>
+
+<canvas id="curTrail"></canvas>
+<div id="cur"></div>
+
+<header>
+  <nav>
+    <a href="#about" class="nlink">About</a>
+    <a href="#contact" class="nlink">Contact</a>
+    <button id="sound" aria-pressed="false" aria-label="Sound"></button>
+  </nav>
+
+  <a href="#hero" id="logo-link" aria-label="Atheer, home">
+    <svg id="logo" class="logo" viewBox="140 82 562 296" role="img" aria-label="Atheer">
+      <g class="pk"><rect x="150" y="208" width="10" height="160"/></g>
+      <g class="pk"><rect x="215" y="260" width="405" height="12"/></g>
+      <g class="pk"><rect x="553" y="220" width="51" height="10"/></g>
+      <g class="pk"><rect x="322" y="294" width="48" height="10"/></g>
+      <g class="pk"><rect x="683" y="118" width="10" height="200"/></g>
+      <g class="pk"><rect x="668" y="90" width="26" height="10"/></g>
+    </svg>
+  </a>
+</header>
+
+<section id="hero">
+  <div id="markWrap">
+    <svg id="mark" viewBox="0 0 1000 1600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <g id="markL"></g><g id="markR"></g>
+      <circle class="anchor" cx="500" cy="875" r="27"/>
+    </svg>
+  </div>
+
+  <div class="hero-in">
+    <div>
+      <div class="role">
+        <span class="dot" style="margin-top:5px"></span>
+        <span class="label">Artist<br>Designer<br>Motion</span>
+      </div>
+      <h1 class="heroline">Ideas,<br>brought to<br><span>life.</span></h1>
+    </div>
+    <span class="label" style="text-align:right;line-height:1.9">Baghdad<br>Available worldwide</span>
+  </div>
+
+  <div class="scrollcue"><i></i><span class="label">Scroll</span><s></s></div>
+</section>
+
+<div class="rule" data-rule><i class="l"></i><i class="r"></i><s></s></div>
+
+<section id="about">
+  <svg id="echo" viewBox="0 0 1000 1600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <g id="echoL"></g><g id="echoR"></g>
+    <circle cx="500" cy="875" r="27"/>
+  </svg>
+
+  <div class="about-in">
+    <div>
+      <div class="portrait" role="img" aria-label="Atheer">
+        <div class="fig"></div><div class="fig scan"></div>
+      </div>
+      <div class="stamp">
+        <span>Based in Baghdad</span>
+        <span>Available worldwide</span>
+        <span class="now">Local time <b id="clock"></b></span>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow"><span class="dot"></span><span class="label">About the artist</span></div>
+      <h2 class="say">I move things two<br>pixels left until they<br><b>feel right</b>.</h2>
+      <p class="bio">Identities, motion and visual worlds for brands that would rather not look like everyone else. Culture, detail, movement, usually in that order. Based in Baghdad, working wherever there's signal.</p>
+      <div class="soon">
+        <span class="pip"></span>
+        <div>
+          <span class="label">Portfolio · Phase two</span>
+          <p>Selected work goes live soon. Ask and I'll send it early.</p>
+        </div>
+      </div>
+      <svg class="sig" viewBox="0 0 260 90"><path id="sigInk" d="M8 66c22-38 36-49 44-45s2 27-6 36 6 6 18-4 26-26 34-24-8 24-2 27 22-14 30-24 14-16 18-13-8 21-2 24 20-13 28-24"/></svg>
+    </div>
+    <div class="seal">
+      <svg viewBox="0 0 200 200">
+        <defs><path id="ring" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+        <text><textPath href="#ring" startOffset="0">Direction · Identity · Experimentation · Motion · </textPath></text>
+      </svg>
+      <i></i>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="ftop">
+    <div>
+      <h2>Let's make<br>something <span>move.</span></h2>
+      <a class="cta" id="book" href="https://cal.com/atheer-half-tone-iv7zpe/30min" target="_blank" rel="noopener">Book a call <span>↗</span></a>
+    </div>
+    <div class="links">
+      <a href="mailto:ahlan@halftoneatheer.com">ahlan@halftoneatheer.com <span class="dot"></span></a>
+      <a href="https://www.instagram.com/halftoneatheer" target="_blank" rel="noopener">Instagram <span class="dot"></span></a>
+    </div>
+  </div>
+  <canvas id="relief" aria-hidden="true"></canvas>
+  <div class="ftail">
+    <span class="label">Baghdad · Worldwide</span>
+    <span class="label">© 2026 · halftoneatheer.com</span>
+  </div>
+</section>
+
+<script>
+(() => {
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const rand = (a,b) => a + Math.random()*(b-a);
+
+/* ============================================================
+   The composition. Right half only; the left is its mirror.
+   Viewbox 1000 x 1600, axis at x = 500, anchor at (500, 875).
+   ============================================================ */
+const STROKES = [
+  // outer stroke: anchor → loop → crossing → long rise → tip → curl → back down
+  {c:"a", d:"M528,872 C585,868 640,858 672,828 C715,795 790,790 812,760 "+
+            "C836,726 800,700 760,706 C716,712 690,732 676,762 "+
+            "C662,700 660,640 668,570 C682,430 720,270 782,140 "+
+            "C800,102 828,66 856,68 C890,72 902,120 890,168 "+
+            "C876,225 838,262 812,300"},
+  // inner edge: the one that turns, notches, and comes back to the crossing
+  {c:"b", d:"M812,300 C796,340 780,392 776,440 C772,478 786,486 782,508 "+
+            "C776,540 758,556 742,586 C716,636 692,690 676,762"},
+  // the second line of the blade, passing through the first
+  {c:"c", d:"M676,762 C700,700 736,620 760,540 C786,452 800,380 812,300"},
+  // lower arch → petal → inner crescent
+  {c:"a", d:"M527,890 C590,900 650,912 690,952 C726,994 730,1042 712,1072 "+
+            "C690,1106 650,1122 620,1152 C596,1178 588,1222 600,1260 "+
+            "C610,1292 640,1302 660,1274"},
+  // outer crescent, the long tail
+  {c:"b", d:"M712,1072 C760,1054 812,1037 862,1048 C900,1056 918,1082 900,1112 "+
+            "C872,1158 852,1242 862,1322 C866,1354 852,1374 836,1382"},
+  // the small looping petal between them
+  {c:"c", d:"M690,952 C740,962 780,1002 786,1048 C790,1082 766,1102 740,1094"}
+];
+
+const mirror = d => d.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g,
+  (_,x,y) => (1000 - parseFloat(x)).toFixed(1)+","+y);
+
+function build(groupL, groupR){
+  const out = [];
+  STROKES.forEach(s => {
+    [[groupR, s.d],[groupL, mirror(s.d)]].forEach(([g,d]) => {
+      const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+      p.setAttribute("d", d);
+      p.setAttribute("class", s.c);
+      g.appendChild(p);
+      out.push(p);
+    });
+  });
+  return out;
+}
+
+const heroPaths = build(document.getElementById("markL"), document.getElementById("markR"));
+const echoPaths = build(document.getElementById("echoL"), document.getElementById("echoR"));
+
+/* ---------- the composition draws itself in ---------- */
+const anchor = document.querySelector("#mark .anchor");
+if (!RM){
+  anchor.animate([{opacity:0,transform:"scale(.1)"},{opacity:1,transform:"scale(1)"}],
+    {duration:900, easing:"cubic-bezier(.2,1.5,.3,1)", fill:"backwards",
+     transformOrigin:"500px 875px"});
+  heroPaths.forEach((p,i) => {
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+    p.animate([{strokeDashoffset:len},{strokeDashoffset:0}], {
+      duration: rand(2100,3000),
+      delay: 260 + Math.floor(i/2)*rand(190,320) + (i%2)*rand(30,120), // halves never quite together
+      easing:"cubic-bezier(.32,.02,.16,1)",
+      fill:"forwards"
+    });
+  });
+}
+
+/* ---------- it keeps breathing, and leans toward the pointer ---------- */
+const mark = document.getElementById("mark");
+let px = 0, py = 0, cxp = 0, cyp = 0, bt = 0;
+addEventListener("pointermove", e => {
+  px = (e.clientX/innerWidth - .5);
+  py = (e.clientY/innerHeight - .5);
+}, {passive:true});
+function breathe(){
+  requestAnimationFrame(breathe);
+  if (RM) return;
+  bt += 0.006;
+  cxp += (px - cxp)*0.045; cyp += (py - cyp)*0.045;
+  const s = 1 + Math.sin(bt*0.7)*0.006;
+  mark.style.transform =
+    `translate(${cxp*22}px, ${cyp*14 + Math.sin(bt)*4}px) rotate(${cxp*0.5 + Math.sin(bt*0.53)*0.22}deg) scale(${s})`;
+}
+breathe();
+
+/* ---------- the echo behind the portrait: same lines, slower, quieter ---------- */
+const echo = document.getElementById("echo");
+if (!RM){
+  echoPaths.forEach((p,i) => {
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = `${len*0.18} ${len*0.82}`;
+    p.animate([{strokeDashoffset:len},{strokeDashoffset:0}],
+      {duration: rand(34000,52000), delay:-rand(0,20000), iterations:Infinity, easing:"linear"});
+  });
+  let et = 0;
+  (function drift(){
+    requestAnimationFrame(drift);
+    et += 0.0016;
+    echo.style.transform =
+      `translate(-50%,-50%) translate(${Math.sin(et)*26}px, ${Math.cos(et*0.78)*18}px) rotate(${Math.sin(et*0.6)*0.8}deg)`;
+  })();
+}
+
+/* ============================================================
+   Cursor: anchor point, and a trail that closes on itself
+   ============================================================ */
+const cur = document.getElementById("cur");
+const cv = document.getElementById("curTrail");
+const cx = cv.getContext("2d");
+let mx = innerWidth/2, my = innerHeight/2, tx = mx, ty = my;
+const tail = [];
+function sizeTrail(){
+  const r = devicePixelRatio || 1;
+  cv.width = innerWidth*r; cv.height = innerHeight*r;
+  cx.setTransform(r,0,0,r,0,0);
+}
+sizeTrail(); addEventListener("resize", sizeTrail);
+addEventListener("pointermove", e => {
+  mx = e.clientX; my = e.clientY;
+  if (e.pointerType !== "mouse") document.body.classList.add("no-cursor");
+}, {passive:true});
+if (matchMedia("(hover: none)").matches) document.body.classList.add("no-cursor");
+
+let ct = 0;
+function cursorLoop(){
+  requestAnimationFrame(cursorLoop);
+  ct += 0.016;
+  tx += (mx-tx)*0.18; ty += (my-ty)*0.18;
+  cur.style.transform = `translate(${tx}px,${ty}px)`;
+  const rx = 13 + Math.sin(ct*0.9)*3.5, ry = 9 + Math.cos(ct*1.27)*3.5;
+  tail.push({x: tx + Math.cos(ct*2.6)*rx, y: ty + Math.sin(ct*3.1)*ry});
+  if (tail.length > 34) tail.shift();
+  cx.clearRect(0,0,innerWidth,innerHeight);
+  cx.lineCap = "round";
+  for (let i=1;i<tail.length;i++){
+    cx.beginPath();
+    cx.moveTo(tail[i-1].x, tail[i-1].y);
+    cx.lineTo(tail[i].x, tail[i].y);
+    cx.strokeStyle = `rgba(143,163,124,${(i/tail.length)*0.30})`;
+    cx.lineWidth = (i/tail.length)*1.4;
+    cx.stroke();
+  }
+}
+if (!RM) cursorLoop();
+
+/* ============================================================
+   The mark: every stroke is a puck. The pointer is the mallet:
+   it shoves them, they carry the momentum, hit the edge of the
+   plate, and drift back to where they belong.
+   ============================================================ */
+const logo = document.getElementById("logo");
+const PLATE = 92;                                  // how far a piece may travel
+const pucks = [...logo.querySelectorAll("g.pk")].map(g => {
+  const b = g.getBBox();
+  return {
+    g, hx: b.x + b.width/2, hy: b.y + b.height/2,
+    x:0, y:0, vx:0, vy:0,
+    m: Math.max(0.7, Math.min(2.4, (b.width*b.height)/1400)),  // the long bar lumbers, the ticks fly
+    k: rand(0.052, 0.070)                                      // each returns at its own rate
+  };
+});
+
+let mal = null, malV = {x:0, y:0};
+logo.addEventListener("pointerleave", () => { mal = null; });
+addEventListener("pointermove", e => {
+  const ctm = logo.getScreenCTM();
+  if (!ctm) return;
+  const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
+  if (mal){ malV.x = p.x - mal.x; malV.y = p.y - mal.y; }
+  mal = p;
+}, {passive:true});
+
+function plate(){
+  requestAnimationFrame(plate);
+  if (RM) return;
+  const REACH = 132;
+  for (const pc of pucks){
+    if (mal){
+      const dx = (pc.hx + pc.x) - mal.x;
+      const dy = (pc.hy + pc.y) - mal.y;
+      const d  = Math.hypot(dx, dy);
+      if (d < REACH){
+        const f = 1 - d/REACH, n = d || .001;
+        pc.vx += ((dx/n)*f*21 + malV.x*f*0.55) / pc.m;
+        pc.vy += ((dy/n)*f*21 + malV.y*f*0.55) / pc.m;
+      }
+    }
+    pc.vx -= pc.x * pc.k;                 // pulled home
+    pc.vy -= pc.y * pc.k;
+    pc.vx *= 0.885; pc.vy *= 0.885;       // friction on the table
+    pc.x += pc.vx; pc.y += pc.vy;
+
+    if (pc.x >  PLATE){ pc.x =  PLATE; pc.vx *= -0.42; }   // the boards
+    if (pc.x < -PLATE){ pc.x = -PLATE; pc.vx *= -0.42; }
+    if (pc.y >  PLATE){ pc.y =  PLATE; pc.vy *= -0.42; }
+    if (pc.y < -PLATE){ pc.y = -PLATE; pc.vy *= -0.42; }
+
+    pc.g.setAttribute("transform",
+      `translate(${pc.x.toFixed(2)} ${pc.y.toFixed(2)}) rotate(${(pc.x*0.05).toFixed(2)} ${pc.hx} ${pc.hy})`);
+  }
+  malV.x *= 0.62; malV.y *= 0.62;
+}
+plate();
+
+/* ============================================================
+   Rule: the halves overshoot, touch, then settle apart
+   ============================================================ */
+document.querySelectorAll("[data-rule]").forEach(rule => {
+  const l = rule.querySelector(".l"), r = rule.querySelector(".r");
+  new IntersectionObserver((es,ob) => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    ob.unobserve(e.target);
+    rule.classList.add("on");
+    if (RM){ l.style.width = r.style.width = "49%"; return; }
+    const go = (el, over, dur) => el.animate(
+      [{width:"0%"},{width:over+"%"},{width:"49.3%"}],
+      {duration:dur, easing:"cubic-bezier(.2,.85,.25,1)", fill:"forwards"});
+    go(l, 54, 1250); go(r, 52.5, 1340);
+  }), {threshold:.4}).observe(rule);
+});
+
+/* ============================================================
+   Relief: the lower half of the composition, resolved as
+   scanlines rather than outline. The pointer parts them.
+   Design space: 1000 x 620, right side only, mirrored on draw.
+   ============================================================ */
+const LOWER = [
+  // ribbon leaving the top edge, on its way up to the anchor
+  "M508,34 C560,26 612,12 650,-8 L690,-8 C640,20 572,44 512,52 Z",
+  // the arch
+  "M512,44 C602,58 692,96 728,168 C746,206 750,240 744,270 L700,264 "+
+  "C707,233 700,201 686,173 C654,110 578,78 506,68 Z",
+  // petal cluster
+  "M694,262 C746,268 788,302 792,346 C796,386 764,406 731,395 "+
+  "C705,386 693,362 698,337 C678,364 647,381 617,375 "+
+  "C590,369 578,346 589,323 C604,295 646,268 694,262 Z",
+  // inner crescent, turning down toward the axis
+  "M662,388 C652,436 622,479 586,503 C566,517 545,517 537,505 "+
+  "C556,500 578,486 596,462 C620,430 634,404 638,381 Z",
+  // the long outer crescent
+  "M792,350 C842,338 886,345 908,371 C881,378 852,392 836,417 "+
+  "C810,457 800,517 806,567 C808,591 800,607 787,613 "+
+  "C785,566 790,510 800,466 C808,428 812,391 806,367 Z",
+  // small counterweight, low and outboard
+  "M898,470 C930,486 946,516 940,548 C924,534 906,526 888,526 "+
+  "C894,508 898,489 898,470 Z"
+];
+const LOWER_PATHS = LOWER.map(d => new Path2D(d));
+
+const REL = document.getElementById("relief");
+const rc  = REL.getContext("2d");
+const STEP = 3.4;                       // scanline pitch
+let RW = 0, RH = 0, rows = [], DPR = Math.min(devicePixelRatio || 1, 2);
+let ptr = null;
+
+function buildRelief(){
+  RW = REL.clientWidth; RH = REL.clientHeight;
+  if (!RW || !RH) return;
+  REL.width = RW*DPR; REL.height = RH*DPR;
+
+  const off = document.createElement("canvas");
+  off.width = RW; off.height = RH;
+  const oc = off.getContext("2d");
+  const s = RH/620, cxm = RW/2;
+  oc.fillStyle = "#fff";
+  for (const p of LOWER_PATHS){
+    oc.setTransform( s,0,0,s, cxm - 500*s, 0); oc.fill(p);   // right
+    oc.setTransform(-s,0,0,s, cxm + 500*s, 0); oc.fill(p);   // mirrored
+  }
+  oc.setTransform(1,0,0,1,0,0);
+
+  const px = oc.getImageData(0,0,RW,RH).data;
+  rows = [];
+  for (let y = 2; y < RH; y += STEP){
+    const yy = Math.round(y), base = yy*RW*4;
+    let x0 = -1;
+    for (let x = 0; x <= RW; x++){
+      const on = x < RW && px[base + x*4 + 3] > 120;
+      if (on && x0 < 0) x0 = x;
+      else if (!on && x0 >= 0){
+        if (x - x0 > 4) rows.push({y:yy, x0, x1:x, o:0, v:0, seed:(yy*97)%31});
+        x0 = -1;
+      }
+    }
+  }
+}
+buildRelief();
+addEventListener("resize", buildRelief);
+new IntersectionObserver(() => buildRelief(), {threshold:0}).observe(REL);
+
+addEventListener("pointermove", e => {
+  const b = REL.getBoundingClientRect();
+  ptr = (e.clientY > b.top - 220 && e.clientY < b.bottom + 220)
+      ? {x: e.clientX - b.left, y: e.clientY - b.top}
+      : null;
+}, {passive:true});
+
+function relief(t){
+  requestAnimationFrame(relief);
+  if (!rows.length) return;
+  rc.setTransform(DPR,0,0,DPR,0,0);
+  rc.clearRect(0,0,RW,RH);
+  rc.lineWidth = 1.2;
+
+  for (const r of rows){
+    const ph = r.y*0.013;
+    let target = RM ? 0 : Math.sin(t*0.00062 + ph*1.6)*5.5 + Math.sin(t*0.00104 - ph*0.7)*2.6;
+    let heat = 0;
+
+    if (ptr && !RM){
+      const dy = ptr.y - r.y;
+      const f = Math.exp(-(dy*dy)/(2*86*86));            // how much this line feels it
+      const mid = (r.x0 + r.x1)/2;
+      target += (mid < ptr.x ? -1 : 1) * f * 30;          // parted, not dragged
+      heat = f;
+    }
+    r.v += (target - r.o)*0.055;                          // spring, so the parting lags
+    r.v *= 0.86;
+    r.o += r.v;
+
+    const dash = 3.4 + (r.seed % 5)*0.6 + heat*2.4;
+    const gap  = 1.1 + (r.seed % 3)*0.35 + heat*3.4;
+    rc.setLineDash([dash, gap]);
+    rc.lineDashOffset = (r.seed*3 + r.o*1.6);
+
+    const a = 0.30 + (r.seed % 7)*0.028 + heat*0.30;
+    rc.strokeStyle = (r.seed % 5 === 0)
+      ? `rgba(143,163,124,${a*0.95})`
+      : `rgba(233,226,206,${a})`;
+
+    const shrink = heat*4;
+    rc.beginPath();
+    rc.moveTo(r.x0 + r.o + shrink, r.y + .5);
+    rc.lineTo(r.x1 + r.o - shrink, r.y + .5);
+    rc.stroke();
+  }
+  rc.setLineDash([]);
+}
+relief(0);
+
+/* ============================================================
+   Signature ink, clock, nav marker, sound
+   ============================================================ */
+const ink = document.getElementById("sigInk");
+if (ink && !RM){
+  const len = ink.getTotalLength();
+  ink.style.strokeDasharray = len; ink.style.strokeDashoffset = len;
+  new IntersectionObserver((es,ob) => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    ob.unobserve(e.target);
+    ink.animate([{strokeDashoffset:len},{strokeDashoffset:0}],
+      {duration:2100, easing:"cubic-bezier(.35,.05,.2,1)", fill:"forwards"});
+  }), {threshold:.6}).observe(ink);
+}
+
+const clock = document.getElementById("clock");
+function tick(){
+  clock.textContent = new Intl.DateTimeFormat("en-GB",
+    {hour:"2-digit",minute:"2-digit",timeZone:"Asia/Baghdad"}).format(new Date());
+}
+tick(); setInterval(tick, 20000);
+
+const links = [...document.querySelectorAll("nav a")];
+["about","contact"].forEach((id,n) => {
+  new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    links.forEach((a,i) => a.classList.toggle("here", i === n));
+  }), {threshold:.4}).observe(document.getElementById(id));
+});
+new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(a => a.classList.remove("here"));
+}), {threshold:.6}).observe(document.getElementById("hero"));
+
+const snd = document.getElementById("sound");
+snd.addEventListener("click", () =>
+  snd.setAttribute("aria-pressed", snd.getAttribute("aria-pressed") === "true" ? "false" : "true"));
+})();
+</script>
+<!-- Cal.com: change CAL_LINK to your username, or "username/event-slug" -->
+<script>
+const CAL_LINK = "atheer-half-tone-iv7zpe/30min";
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document;
+C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments;
+if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || [];
+if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); }
+else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+
+Cal("init", {origin:"https://cal.com"});
+Cal("ui", {
+  theme:"dark",
+  cssVarsPerTheme:{ dark:{ "cal-brand":"#8FA37C" } },
+  hideEventTypeDetails:false,
+  layout:"month_view"
+});
+Cal("preload", {calLink: CAL_LINK});          // so the sheet opens without a wait
+
+// the link stays a real link: if the embed never loads, the click still goes to cal.com
+const book = document.getElementById("book");
+book.href = "https://cal.com/" + CAL_LINK;
+book.dataset.calLink = CAL_LINK;
+book.dataset.calConfig = JSON.stringify({theme:"dark", layout:"month_view"});
+</script>
+</body>
+</html>
